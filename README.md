@@ -1,4 +1,4 @@
-**Autor: José Wilas Alves de Farias**
+Autor: **José Wilas Alves de Farias**
 
 Formação: **Mestre em Economia pela Universidade Federal de sergipe**
 
