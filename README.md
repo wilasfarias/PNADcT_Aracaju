@@ -1,13 +1,11 @@
-Autor: José Wilas Alves de Farias
+**Autor: José Wilas Alves de Farias**
 
-Formação: Mestre em Economia pela Universidade Federal de sergipe
+Formação: **Mestre em Economia pela Universidade Federal de sergipe**
 
-Programa: Pós-Graduação profissional em Economia - PROPEC
+Programa: **Pós-Graduação profissional em Economia - PROPEC**
 
-Período: 2012.1 a 2023.1
+Período: **2012.1 a 2023.1**
 
-
-Relatório acadêmico para an
 
 ## PNADcT_Aracaju
 Dados PNADcT de Aracaju
