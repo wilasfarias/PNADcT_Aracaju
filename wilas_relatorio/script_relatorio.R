@@ -23,7 +23,6 @@ library(ggplot2)
 library(stringr)
 library(dplyr)
 library(magrittr)
-library(esquisse)
 
 #install.packages("rticles")
 #devtools::install_github("rstudio/rticles")
@@ -35,7 +34,7 @@ library(esquisse)
 # [1] "1.050,2"
 # scales::number(x, accuracy = 0.01, big.mark = ".", decimal.mark = ",")
 
-#"D:/PNADcT_SERGIPE/wilas_relatorio/tabelas/Tabela 1 - Total da populacao por sexo em Aracaju.xlsx"
+#"F:/PNADcT_SERGIPE/wilas_relatorio/tabelas/Tabela 1 - Total da populacao por sexo em Aracaju.xlsx"
 
 #"C:/Users/wilasalvesfarias/Desktop/PNADcT_SERGIPE/wilas_relatorio/tabelas/Tabela 1 - Total da populacao por sexo em Aracaju.xlsx")
 
@@ -65,17 +64,15 @@ Rmed <- read_excel("F:/PNADcT_SERGIPE/wilas_relatorio/tabelas/Tabela 1.1 - Renda
 Rmed <- as.data.frame(Rmed)
 Rmed[1] <- NULL
 
-names(Rmed)[2] <- "Renda Média"
+Rmed <- Rmed %>% filter(TRI >= "2022.1") %>% arrange(TRI)
+names(Rmed)[2] <- "Renda Media"
 names(Rmed)[1] <- "Trimestre"
 
-Rmed$`Renda Média` <- scales::number(Rmed$`Renda Média`, 
+Rmed$`Renda Media` <- scales::number(Rmed$`Renda Media`, 
                                                   accuracy = 0.01, big.mark = ".", decimal.mark = ",")
 
-Rmed1 <- Rmed
-
-Rmed <- Rmed %>% filter(Trimestre >= "2022.1") %>% arrange(Trimestre)
-
 Pop_sex_Rmed <- full_join(Pop_sex, Rmed, "Trimestre")
+
 
 #---------------------------TABELA2---------------------------------------------------#
 # importar População na Força e Fora da Força de Trabalho na Capital
