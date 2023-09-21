@@ -1,0 +1,368 @@
+---
+title: Relatório Econômico-Social da População da Cidade de Aracaju
+#title: |
+#  <center>
+#  Análise da Ocupação e Renda da População da Capital de Sergipe
+#  ![](logoUFS.png){ width=10%   sytle="display; left:50%" } <br />
+author: 
+  - name: José Wilas Alves de Farias
+    email: wilasalvesfarias89@hotmail.com
+#    orcid: 0000-0002-9079-593X
+    affiliation: Universidade Federal de Sergipe 1
+    degree: Mestre em Economia
+    department: Economia
+    faculty: Ciências Sociais
+#    institute: ABC
+    correspondingauthor: true
+    footnote: 1
+#address:
+#  - code: "49.100-000"
+#    organization: Autoria própria
+#    addressline: 1 Rua Jenivaldo de Jesus
+#    city: São Cristóvão
+#    state: Sergipe
+#    postcode: "49.100-000"
+#    country: Brasil
+footnote:
+- code: 1
+  text: Mestre em Economia pela Universidade Federal de Sergipe
+abstract: |                        # Resumo
+  Este trabalho se trata de um pequeno relatório de autoria própria e sem pretenções de publicação de artigo. Nele será trabalhado dados da PNADcT em diversos pontos importantes do mercado de trabalho da Cidade de Aracaju, Capital do Estado de Sergipe, engoblando desemprego, renda média, escolaridade e setores produtivos.
+keywords: [PNADcT, Desemprego, Renda, Aracaju]
+journal: "Sem pretenções de publicação" # AER, AEJ, PP, JEL
+date: "`r Sys.Date()`"
+classoption: preprint, 3p, authoryear
+bibliography: mybibfile.bib
+#biblio-style: apsr
+csl: abnt-ufs.csl
+header-includes:
+  - \usepackage{longtable}
+  - \LTcapwidth=.95\textwidth
+  - \linespread{1.5}
+  - \usepackage{hyperref}
+  - \usepackage{array}   
+  - \usepackage{caption}
+  - \usepackage{graphicx}
+  - \usepackage{siunitx}
+  - \usepackage[table]{xcolor}
+  - \usepackage{multirow}
+  - \usepackage{hhline}
+  - \usepackage{calc}
+  - \usepackage{tabularx}
+  - \usepackage{fontawesome}
+  - \usepackage[para,online,flushleft]{threeparttable}
+  - \usepackage{placeins}
+# multicolumn, textcolor, \FloatBarrier
+spacing: double
+documentclass: article # article, book, report
+geom:
+  - top=30mm
+  - left=30mm
+  - right=20mm
+  - bottom=20mm
+linenumbers: false
+numbersections: true
+fontsize: 12pt
+paper: a4
+
+#lang: pt-BR
+#language: pt-BR
+#logo: logoUFS.png
+output: 
+  rticles::elsevier_article:
+    keep_tex: true
+    citation_package: natbib
+    fig_caption: yes
+    latex_engine: pdflatex # pdflatex, xelatex
+    df_print: kable
+
+#output: 
+#  pdf_document: 
+#    toc: no
+#    toc_depth: 2
+#    latex_engine: xelatex # xelatex, pdflatex
+#    keep_tex: true
+#    citation_package: natbib
+#    df_print: kable
+#    fig_width: 7
+#    fig_height: 6
+#    fig_caption: true
+#editor_options: 
+#  chunk_output_type: inline
+#  markdown: 
+#    wrap: 72
+#citecolor: citation
+longtable: TRUE
+location: América Latina
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, # não mostra ro código
+  eval = TRUE, # executar o código
+  fig.cap = "", # título do gráfico
+  results = "asis", # formato de renderização de texto
+  fig.width = 8, # largura do gráfico
+  fig.height = 4, # altura do gráfico
+  fig.align = "center", # alinhamento horizontal do gráfico
+  out.width = "100%", # redimensionamento do gráfico (aumentar/diminuir em %)
+  warning = FALSE, # exibir avisos do console
+  message = FALSE # exibir mensagens do console
+  )
+library(tidyverse)
+library(knitr)
+library(readxl)
+library(tidyr)
+library(dplyr)
+library(rmarkdown)
+library(scales)
+library(png)
+library(stevemisc)
+library(kableExtra)
+
+source("script_relatorio.R", local = F, encoding = "UTF-8")
+# install.packages("devtools")
+#devtools::install_github("lbusett/insert_table")
+
+#pak::pak("rstudio/rticles")
+
+# atualizar todos os pacotes R e Latex:
+# update.packages(ask = FALSE, checkBuilt = TRUE)
+
+```
+
+# Introdução
+
+Este trabalho é desenvolvido apenas como uma forma de pensar o município de forma crítica e análitica de forma não detalhada, mas observando pontos importantes da situação econômica e social da capital do estado de Sergipe.
+
+O trabalho está dividido em 5 capítulos além dessa introdução. O segundo capítulo analisa a População Total do Município por Gênero e a Renda Média. O terceito capítulo trata da População na Força de Trabalho, Ocupadas e Desocupadas, Fora da Força de Trabalho e Desalentados. O quarto capítulo estuda a População NEM-NEM por Nível de Instrução. O quinto capítulo estuda os Jovens Desocupados por Nível de Instrução. E, o sexto capítulo analisa as Pessoas Ocupadas por Setor Produtivo.
+
+# Total da População de Aracaju por Sexo
+
+A Tabela \ref{tab1}, mostra que ao longo do período mais de `50%` da população da capital do estado de Sergipe é formada por mulheres. Há crescimento apróximado entre os trimestres e de forma crescente da população de Aracaju, com redução do quantitativo de homens no 2º trimestre de 2022 e 1º trimestre de 2023.
+\newpage
+```{r tab1, echo=F, eval=TRUE, message=F, warning=F}
+knitr::kable(Pop_sex_Rmed,  booktabs = TRUE,
+             caption = "\\label{tab1}Total da População por Sexo em Aracaju e Renda Média, \n2022.1 a 2023.1", 
+             align = "ccccr", longtable = TRUE, escape = T) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+
+# align = "ccccr", longtable = TRUE, escape = T
+
+```
+
+Já no caso das mulheres ocorreu redução no 3º e de forma mais relevante no 4º trimestre de 2022. Olhando para o lado da renda, tem-se que ocorreu redução no 3º trimestre de 2022, mas que retornou a sua tragetória de crescimento no trimestre seguinte, chegando a `13,3%` de diferênça do 4º e o 1º trimestre de 2022 e aumento de `24,4%` entre o primerio trimestre de 2022 até o primeiro trimestre de 2023, com renda média de R$ `r Pop_sex_Rmed[5,5]`.
+
+
+# População na Força de Trabalho, Fora da Força de Trabalho, Ocupada, Desocupada e em Desalento em Aracaju
+
+De início a Tabela \ref{tab2} mostra que há cresciemtno da população da capital do estado, mas em comparação com a Tabela \ref{tab1} demonstra que esse aumento representa pessoas em idade não ativa. Destaca-se a grande queda das Pessoas na Força do Trabalho, coupadas e desocupadas, em comparação das Pessoas Fora da força de trabalho.
+
+```{r tab2, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(PEA_NPEA_ocup_des_desal, booktabs = TRUE,
+    caption = "\\label{tab2}População na Força de Trabalho, Fora da Força de Trabalho, Ocupada, Desocupada e em Desalento em Aracaju, 2022.1 a 2023.1", align = "c", longtable = TRUE, escape = T) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).") %>% 
+  column_spec(1, width = "1cm") %>%
+  column_spec(c(2:3), width = "3.5cm") %>%
+  column_spec(c(4:6), width = "2cm") # reduzir comprimento da coluna 1 "35em"
+
+#knitr::kable(Pop_sex, format = "html", align = "cccc", digits = getOption("digits"), format.args = list(big.mark = "."))
+```
+
+Para o primeiro grande grupo, PEA, tem-se que o impacto da redução recaiu em grande parte no número de pessoas ocupadas, que saiu de `r PEA_NPEA_ocup_des_desal[1,4]` pessoas ocupadas para `r PEA_NPEA_ocup_des_desal[5,4]` pessoas, 1º trimestre de 2022 e 2023, respectivamente. Por outro lado o número de desempregados caiu de `r PEA_NPEA_ocup_des_desal[1,5]` (Taxa de Desemprego de `r round(txocupdes[1,2], 1)`%, Tabela \ref{tab13}) para `r PEA_NPEA_ocup_des_desal[5,5]` (Taxa de Desemprego de `r round(txocupdes[5,2], 1)`%, Tabela \ref{tab13}) pessoas, uma queda de aproximadamente *10.170* pessoas, 1º trimestre de 2022 a 2023 respectivamente, queda inferior as de aproximadamente *13.371* pessoas das pessoas ocupadas. 
+
+```{r tab13, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(txocupdes, booktabs = TRUE,
+             caption = "\\label{tab13}Taxa de Ocupação e Desocupação na Capital, 2022.4 a 2023.1", 
+             align = "c", longtable = TRUE, escape = T, digits = 1, format.args = list(big.mark = ".", decimal.mark = ",")) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+#  kableExtra::kable_styling(bootstrap_options = "striped") %>% 
+  kableExtra::row_spec(c(2,4), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).") #%>% 
+#  column_spec(1, width = "13cm") # reduzir comprimento da coluna 1 "35em"
+
+# encoding='UTF-8' ou 'latin1'
+
+#kable(Rmed_Setor, booktabs = TRUE,
+#    caption = "\\label{tab12}Renda Média por Setor em Aracaju, 2022.4 a 2023.1", 
+#    align = "lcc", longtable = TRUE) %>%
+  #kable_styling(font_size = 10) %>%
+#  row_spec(c(2,4,6,8,10), background = '#DCDCDC')
+
+```
+
+É importante salientar que a há uma tragetória de queda do número de pessoas desocupados, mas se apresenta não de forma consistênte e que é de extrema importância dado que a taxa de desemprego ainda estava em `r round(txocupdes[4,2], 1)`% no 4º trimestre de 2022 e no 1º Trimestre de 2023 está em `r round(txocupdes[5,2], 1)`%. A redução apresentada no número de pessoas desocupadas em termos absolutos, não representou melhora no quadro empregatício do município, o que pode supor é que essa massa de desempregados transferiu-se para o número de Pessoas Fora da Força de Trabalho e um pequeno número foi para os desalentados, entendimento corroborado pelo aumento desses dois indicadores.
+
+Olhando para as pessoas em desalento, as quais representam uma parte as PÑEA, que chegou ao auge nos 2º e 3º trimestre de 2022, chegando as `r PEA_NPEA_ocup_des_desal[3,6]` pessoas que devido a não conseguirem ocupação por um longo período de tempo pararam de procurar emprego. Apesar da redução do número de desalentados, ainda não se mostraram efetivas e eficientes as medidas tomadas para mitigar essa triste realidade que está a si transformar em "patologia" na capital do estado.
+\newpage
+```{r tab3, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(T_estuda, booktabs = TRUE,
+             caption = "\\label{tab3}Pessoas que Estudam em Aracaju, 2022.1 a 2023.1", 
+             align = "c", longtable = TRUE, escape = T, digits = 0, format.args = list(big.mark = ".", decimal.mark = ",")) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+```
+
+Na Tabela \ref{tab3} há uma tendência de aumento do número de pessoas que não estudam em Aracaju, apesar do aumento/retomada das pessoas a estudar no 4º trimestre de 2022, mas já no 1º trimestre de 2023 há o aumento do número de pessoas que não estudam em torno *7.867* (`1,7%`) do total de `r T_estuda[5,3]` pessoas (`72%` da População Total).
+
+Na Tabela \ref{tab4}, tem-se que algumas pessoas podem entender como possitivo, mas que de fato é algo preocupante. Em que no último trimestre de 2022 houve aumento relevante do númnero de pessoas desempregadas e que estudavam, mas no primeiro trimestre de 2023 esse número voltou a cair, tendo uma leve sensação de melhora. Entretanto, é de suma importância salientar que essa redução não refletiu no aumento do número de pessoas empregadas, mas de aumento do número de pessoas que além de estarem fora do mercado de trabalho pioram sua situação ao deixarem de estudar e adquirirem novas competéncias.
+
+```{r tab4, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(T_estDes,  booktabs = TRUE,
+             caption = "\\label{tab4}Pessoas Ocupadas e Desocupadas que Estudam e Não Estudam em Aracaju, 2022.4 a 2023.1", 
+             align = "c", longtable = TRUE, escape = T, digits = 0, format.args = list(big.mark = ".", decimal.mark = ",")) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).") %>% 
+  column_spec(1, width = "1cm") %>%
+  column_spec(c(2:5), width = "3.2cm") # reduzir comprimento da coluna 1 "35em"
+
+#knitr::kable(Pop_sex, format = "html", align = "cccc", digits = getOption("digits"), format.args = list(big.mark = "."))
+
+```
+
+Como mostra a Tabela \ref{tab5}, População por Nivel de Instrução, há redução do número de pessoas sem o curso fundamental completo, mas ainda é preocupante essa situação levando em consideração que no 1º Trimestre de 2023 cerca de `30%` das pessoas ainda não concluíram o ensino fundamental. Nesse sentido, mostra que houve redução de pessoas com curso médio completo e acima, e podemos entender que há fuga de mentes na capital do estado.
+
+```{r tab5, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(Instr, booktabs = TRUE,
+             caption = "\\label{tab5}População por Nivel de Instrução em Aracaju, 2022.4 a 2023.1", 
+             align = "lcc", longtable = TRUE, escape = T, digits = 0, format.args = list(big.mark = ".", decimal.mark = ",")) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4,6), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+```
+
+Na Tabela \ref{tab6}, Nivel de Instrução das Pessoas que Não Estudam, foi constatado que no 4º Trimestre de 2022 cerca de `71%` da população por nível de Instrução já deixaram de estudar e no 1º Trimestre de 2023 ocorre aumento desse percentual para `72%` (*459.864* pessoas). Há aumento do número de pessoas com o nível fundamental completo, o que mostra uma melhora nesse nível no sentido que parte das pessoas que estavam com fundamental incompleto conseguiram concluir esse nível. Parcela dos alunos que estavam estudando o ensino médio deram continuidade em seus estudos. Mas é importante destacar que os alunos que já estavam no ensino médio não concluíram seus estudos e isso ocorre para os demais níveis acima deste, o que caracteriza abandono dos estudos ou até a saída desses jovens do município, fatos que serão analisados posteriormente.
+
+```{r tab6, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(ins_n_est, booktabs = TRUE,
+             caption = "\\label{tab6}Nivel de Instrução das Pessoas que Não Estudam em Aracaju, 2022.4 a 2023.1", 
+             align = "lcc", longtable = TRUE, escape = T) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4,6), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+```
+
+Logo, se observa a fuga de mentes ao observar redução do número de pessoas por escolaridade acima de ensino médio, sendo corroborado pela redução nesssas faixas das pessoas que deixaram de estudar.
+
+
+# População que Não Estuda e Não Trabalha (Nem-Nem) por Nivel de Instrução em Aracaju
+
+Tabela \ref{tab7} observa as pessoas desempregadas que deixara de estudar, os Nem-Nem. tem-se que essa situação acontece em maior força nas pessoas com baixa escolaridade com até ensino médio completo e principalmente em pessoas com fundamental incompleto. Para essas faixas houve aumento das pessoas Nem-Nem, em especial para as pessoas com ensino fundamental incompleto que saiu de `r T_nem_nem[2,2]` para `r T_nem_nem[2,3]` pessoas no 1º Trimestre de 2023. Destaca-se o aumento para faixa de pessoas com Ensino Médio Completo que saiu de `r T_nem_nem[5,2]` para `r T_nem_nem[5,3]` pessoas NEM-NEM. Para os níveis mais elevados houve redução. No geral tem-se aumento de 405 pessoas Nem-Nem na Capital do estado, em destaque para os níveis mais baixos de escolaridade, do 4º Trimestre de 2022 para o 1º Trimestre de 2023.
+
+```{r tab7, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(T_nem_nem, booktabs = TRUE,
+             caption = "\\label{tab7}Nem Estudam e Nem Trabalham por Nivel de Instrução em Aracaju, 2022.4 a 2023.1", 
+             align = "lcc", longtable = TRUE, escape = T) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4,6), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+
+```
+
+Na Tabela \ref{tab8} mostra que no 1º Trimestre de 2023 ocorre redução do Número de jovens em Aracaju, saiu de *115.733* para *99.249* jovens. A análise dos motivos dessa redução não são objeto de estudo desse trabalho. É demonstrado também a situação empregatícia dos jovens, segundo o IBGE [-@ibge2023] os jovens são divididos em faixa de 15 a 29 anos, nesse sentido foi demostrado redução de jovens de 15 a 19 anos ocupados e desocupados para variação do último trimestre de 2022 para para o 1º Trimestre de 2023, mas embora tenha havido redução em âmbos temos que foi remetid oem menot impacto no núemro de despcucpados, o que demostra em certo sentido uma piora relativa no quadro econômico-social da capital.
+\newpage
+```{r tab8, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(desocupfaixa, booktabs = TRUE,
+             caption = "\\label{tab8}Ocupação e Desocupação por Faixa Etária em Aracaju, 2022.4 a 2023.1", 
+             align = "c", longtable = TRUE, escape = T) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4,6), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+
+#knitr::kable(Pop_sex, format = "html", align = "cccc", digits = getOption("digits"), format.args = list(big.mark = "."))
+```
+
+Analisando os jovens de 20 a 24 anos, foi observado que há também redução no número de ocupados e desocupados, mas a redução é ainda maior no número de desocupados, entretanto esse fato não evidência/constata melhora no número de jovens ocuados nessa faixa etária.
+
+Na faixa de idade de 25 a 29 anos, tambpem ocorreu reduçao n onumero de ocupados e desocupados no 4º Trimestre de 2022 para 1º Trimestre de 2023. Esperava-se que com a redução de jovens desocupados de 20 a 24 anos teria ocorrido a mudança de faixa e ocorrido o aumento de jovens ocupados de 25 a 29 anos. Mas esse quadro não se concretiza, ocorrendo o inverso do esperado em que cai o número de ocupados e desocupados, e mais fortemente no primeiro, cerca de *5.957* e *3.988* jovens, respectivamente.
+
+
+# Jovens Desocupados por Nivel de Instrução em Aracaju
+
+Para o período de 2022.4 a 2023.1 tem-se que na Tabela \ref{tab9} mostra redução do percentual de jovens de 15 a 19 anos com apenas o fundamental incompleto e médio incompleto, de `26%` caiu para `15%` de `75,5%` para `46%`, respectivamente.
+\newpage
+```{r tab9, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(esc_des_faAJ, booktabs = TRUE, 
+             caption = "\\label{tab9}Jovens Desocupados por Nivel de Instrução em Aracaju, 2022.4 a 2023.1", 
+             align = "clccc", longtable = TRUE, escape = T) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4,6,8,10,12,14), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+```
+
+Há aumento de desempregados na faixa de 20 a 24 anos, com apenas o fundamental incompleto e médio incompleto, de `10,9%` para `33%` e de `24,6%` para `40%`, respectivamente.
+
+Já os jovens de 25 a 29 anos apresentaram melhora em seu percential para os com jundamental incompleto e médio incompleto, anteriormente de `4%` caiu para zero e de `18%` caiu para `7,8%`.
+
+Sabendo que o maior volume de jovens está concentrado na faixa de 20 a 24 anos, 8.178 jovens em estado de desocupados, há enorme preocupação ao saber que `33%` deles não possuem o ensiono fundamental completo e olhando para os que não possuem ensino médio completo esse percentual sobe para `40%` no 1º Trimestre de 2023.
+\newpage
+```{r tab10, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(nem_nem_fa_des, booktabs = TRUE, 
+             caption = "\\label{tab10}Jovens Nem-Nem por Nivel de Instrução em Aracaju, 2022.4 a 2023.1", 
+             align = "clccc", longtable = TRUE, escape = T) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4,6,8,10,12,14), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).")
+
+```
+
+Na Tabela \ref{tab10}, Jovens Nem-Nem por Nivel de Instrução, é explicitado que par ao s jovens de 15 a 19 anos têm que no 4º Trimestre de 2022 cerca de `12,8%` sem o ensino fundamental completo estavam desempregados e deixaram de estudar e no 1º Trimestre de 2023 esse percentual cai para `10,8%`, ou seja, dos `14,9%` dos jovens que não trabalhavam cerca de `10,8%` já não estudavam mais. Já para os jovens sem ensino médio completo o percentual não aumentou, ou seja, dos `46%` apenas `10,8%` (o total dos jovens sem ensino fundamental completo) deixaram de estudar.
+
+A situação mais preocupante ocorre com os jovens de 20 a 24 e 25 a 29 anos, em que apenas para o sem o ensino médio completo no 4º Trimestre de 2022 que houve diferença no percentual, os demais dados foram identicos. Isso quer dizer que todos os jovens que dessa faixa etária que não trabalhavam deixaram de estudar. Esse fato é de maior relevânciana faixa de 20 a 24 anos pois concentra cerca de `40%` dos jovens desempregados no 1º Trimestre de 2023, percentual superior dos `37%` do Trimestre anterior.
+
+
+# Pessoas Ocupadas e Renda Média por Setor Produtivo em Aracaju
+
+Na Tabela \ref{tab11} é demostrado os setores que mais emprega na cidade de Aracaju, que são: Comércio, Educação, Informação e Administração Pública. Podemos observar que entre o 4º Trimestre de 2022 e 1º Trimestre de 2023 os setores de Educação (Educação, Saúde Humana e Serviço Social) e Administração Pública (Administração Pública, Defesa e e Seguridade social) sofreram redução no número de ocupados, o que mostra redução de empregados em dois setores mais sensíveis da estrutura organizacional e social do município. Estes englobam ou abarcam os setores de maior precocupação e déficit social tanto em níveis municipal, estatual e federal.
+
+Já os setores de Comércio e informação tiveram aumento do número de empregados relativos a esses dois trimestres, sendo que o primeiro está muito ligado a efeitos sazonais devido as datas comemoratidas dos dois primeiros meses do ano. O setor de comércio aumentou em `r round(OcupsetorAJ[4,3]-OcupsetorAJ[4,2], 0)` e o de Informação em `r round(OcupsetorAJ[8,3]-OcupsetorAJ[8,2], 0)` pessoas em seus quadros nesse 1º trimestre de 2023.
+
+Houve redução em 6 dos 11 setores analisados com total de `r round(sum(OcupsetorAJ[,2])-sum(OcupsetorAJ[,3]), 0)` pessoas ocupadas no 1º Trimestre de 2023, sendo que o setor de Educação perdeu `r round(OcupsetorAJ[6,2]-OcupsetorAJ[6,3], 0)` e de Administração `r round(OcupsetorAJ[1,2]-OcupsetorAJ[1,3], 0)` postos de emprego comparativamente ao 4º Trimestre de 2022.
+
+```{r tab11, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(OcupsetorAJ, booktabs = TRUE, 
+             caption = "\\label{tab11}Pessoas Ocupadas por Setor Produtivo em Aracaju, 2022.4 a 2023.1", 
+             align = "lcc", longtable = TRUE, escape = T, digits = 0, format.args = list(big.mark = ".", decimal.mark = ",")) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+  kableExtra::row_spec(c(2,4,6,8,10), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).") %>% 
+  column_spec(1, width = "13.3cm") # reduzir comprimento da coluna 1 "35em"
+```
+
+A Tabela \ref{tab12}, Renda Média por Setor Produtivo, mostra que dentre os quatro setores que mais emprega em Aracaju tem-se: o setor de Comércio sendo este o que mais emprega e o que pior remunera, e demonstrou aumento da renda do primeiro trimestre de 2023. O segundo é o setor de Educação, que também é o segundo em termos de remuneração, com renda média crescente e aproximadamente de R\$ `r round(Rmed_Setor[6,3], 2)`. Já para o terceiro, setor de Informação, houve redução em comparação ao último trimestre de 2022, que no 1 trimestre de 2023 finalizou com renda média aproximada de R\$ `r round(Rmed_Setor[8,3], 2)`.
+
+O quarto setor que mais emprega no município de Aracaju é o da Administração Pública que no primeiro trimestre de 2023 aumentou a renda média para R\$ `r round(Rmed_Setor[1,3], 2)`, sendo este o que melhor remunera na Capital do estado.
+
+\FloatBarrier
+```{r tab12, echo = F, eval=TRUE, message=F, warning=F}
+knitr::kable(Rmed_Setor, booktabs = TRUE,
+             caption = "\\label{tab12}Renda Média por Setor Produtivo em Aracaju, 2022.4 a 2023.1", 
+             align = "lcc", longtable = TRUE, escape = T, digits = 2, format.args = list(big.mark = ".", decimal.mark = ",")) %>% 
+  kableExtra::kable_classic_2(full_width = F, font_size = 9) %>% 
+#  kableExtra::kable_styling(bootstrap_options = "striped") %>% 
+  kableExtra::row_spec(c(2,4,6,8,10), background = '#DCDCDC') %>% 
+  footnote(general = "", general_title = "Fonte: IBGE (2023).") %>% 
+  column_spec(1, width = "13.3cm") # reduzir comprimento da coluna 1 "35em"
+
+# encoding='UTF-8' ou 'latin1'
+
+#kable(Rmed_Setor, booktabs = TRUE,
+#    caption = "\\label{tab12}Renda Média por Setor em Aracaju, 2022.4 a 2023.1", 
+#    align = "lcc", longtable = TRUE) %>%
+  #kable_styling(font_size = 10) %>%
+#  row_spec(c(2,4,6,8,10), background = '#DCDCDC')
+
+```
+
+
+
+\newpage
+
+
+# References {.unnumbered}
